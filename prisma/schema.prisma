@@ -1,0 +1,86 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+// Adventurer = user dalam dunia GoQuest
+model Adventurer {
+  id            String   @id @default(cuid())
+  username      String   @unique
+  avatarClass   String // swordsman | mage | ranger | alchemist
+  level         Int      @default(1)
+  xp            Int      @default(0)
+  gold          Int      @default(50)
+  streak        Int      @default(0)
+  bestStreak    Int      @default(0)
+  lastActiveDay String? // YYYY-MM-DD utk hitung streak harian
+  lastDailyClaim String? // YYYY-MM-DD klaim daily reward terakhir
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  questProgress  QuestProgress[]
+  achievements   Achievement[]
+  inventoryItems InventoryItem[]
+  skillUnlocks   SkillUnlock[]
+
+  @@map("adventurers")
+}
+
+// Progress quest per adventurer
+model QuestProgress {
+  id           String    @id @default(cuid())
+  adventurerId String
+  questId      String // referensi ke QUESTS di game data
+  status       String    @default("in_progress") // in_progress | completed
+  score        Int       @default(0) // 0-100
+  completedAt  DateTime?
+
+  adventurer Adventurer @relation(fields: [adventurerId], references: [id], onDelete: Cascade)
+
+  @@unique([adventurerId, questId])
+  @@map("quest_progress")
+}
+
+// Achievement / trophy yang sudah di-unlock
+model Achievement {
+  id            String   @id @default(cuid())
+  adventurerId  String
+  achievementId String // referensi ke ACHIEVEMENTS di game data
+  unlockedAt    DateTime @default(now())
+
+  adventurer Adventurer @relation(fields: [adventurerId], references: [id], onDelete: Cascade)
+
+  @@unique([adventurerId, achievementId])
+  @@map("achievements")
+}
+
+// Item di inventory (badge, title, equipment)
+model InventoryItem {
+  id           String   @id @default(cuid())
+  adventurerId String
+  itemId       String // referensi ke ITEMS di game data
+  equipped     Boolean  @default(false)
+  acquiredAt   DateTime @default(now())
+
+  adventurer Adventurer @relation(fields: [adventurerId], references: [id], onDelete: Cascade)
+
+  @@unique([adventurerId, itemId])
+  @@map("inventory_items")
+}
+
+// Skill node yang sudah di-unlock di skill tree
+model SkillUnlock {
+  id           String   @id @default(cuid())
+  adventurerId String
+  skillId      String // referensi ke SKILL_TREE di game data
+  unlockedAt   DateTime @default(now())
+
+  adventurer Adventurer @relation(fields: [adventurerId], references: [id], onDelete: Cascade)
+
+  @@unique([adventurerId, skillId])
+  @@map("skill_unlocks")
+}

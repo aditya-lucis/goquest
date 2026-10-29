@@ -1,0 +1,327 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-inter);
+  --font-mono: var(--font-jetbrains);
+  --color-sidebar-ring: var(--sidebar-ring);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar: var(--sidebar);
+  --color-chart-5: var(--chart-5);
+  --color-chart-4: var(--chart-4);
+  --color-chart-3: var(--chart-3);
+  --color-chart-2: var(--chart-2);
+  --color-chart-1: var(--chart-1);
+  --color-ring: var(--ring);
+  --color-input: var(--input);
+  --color-border: var(--border);
+  --color-destructive: var(--destructive);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-accent: var(--accent);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-muted: var(--muted);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-secondary: var(--secondary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary: var(--primary);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-popover: var(--popover);
+  --color-card-foreground: var(--card-foreground);
+  --color-card: var(--card);
+  --color-gold: var(--gold);
+  --color-neon: var(--neon);
+  --color-mana: var(--mana);
+  --color-hp: var(--hp);
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+}
+
+/* GoQuest adalah dark-mode-only: root langsung gelap */
+:root {
+  --radius: 0.75rem;
+
+  /* Deep dungeon slate dengan nuansa ungu */
+  --background: oklch(0.14 0.02 295);
+  --foreground: oklch(0.93 0.015 290);
+
+  --card: oklch(0.18 0.025 293);
+  --card-foreground: oklch(0.93 0.015 290);
+  --popover: oklch(0.16 0.025 293);
+  --popover-foreground: oklch(0.93 0.015 290);
+
+  /* Arcane purple */
+  --primary: oklch(0.62 0.21 293);
+  --primary-foreground: oklch(0.98 0.005 290);
+
+  --secondary: oklch(0.24 0.03 292);
+  --secondary-foreground: oklch(0.88 0.02 290);
+
+  --muted: oklch(0.22 0.02 292);
+  --muted-foreground: oklch(0.68 0.025 290);
+
+  --accent: oklch(0.82 0.13 195); /* neon cyan */
+  --accent-foreground: oklch(0.15 0.03 250);
+
+  --destructive: oklch(0.65 0.22 25);
+
+  --border: oklch(0.30 0.04 292);
+  --input: oklch(0.26 0.03 292);
+  --ring: oklch(0.62 0.21 293);
+
+  /* Game-specific colors */
+  --gold: oklch(0.82 0.16 85);
+  --neon: oklch(0.85 0.14 195);
+  --mana: oklch(0.62 0.21 293);
+  --hp: oklch(0.68 0.2 15);
+
+  --chart-1: oklch(0.62 0.21 293);
+  --chart-2: oklch(0.82 0.13 195);
+  --chart-3: oklch(0.82 0.16 85);
+  --chart-4: oklch(0.68 0.2 15);
+  --chart-5: oklch(0.7 0.17 330);
+
+  --sidebar: oklch(0.16 0.025 294);
+  --sidebar-foreground: oklch(0.9 0.015 290);
+  --sidebar-primary: oklch(0.62 0.21 293);
+  --sidebar-primary-foreground: oklch(0.98 0.005 290);
+  --sidebar-accent: oklch(0.24 0.04 292);
+  --sidebar-accent-foreground: oklch(0.88 0.02 290);
+  --sidebar-border: oklch(0.28 0.04 292);
+  --sidebar-ring: oklch(0.62 0.21 293);
+}
+
+.dark {
+  --background: oklch(0.14 0.02 295);
+  --foreground: oklch(0.93 0.015 290);
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  html {
+    scroll-behavior: smooth;
+  }
+  body {
+    @apply bg-background text-foreground;
+    font-feature-settings: "cv11", "ss01";
+  }
+  ::selection {
+    background: oklch(0.62 0.21 293 / 0.4);
+    color: oklch(0.98 0.005 290);
+  }
+}
+
+/* ============ CUSTOM SCROLLBAR ============ */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+::-webkit-scrollbar-track {
+  background: oklch(0.16 0.02 295);
+}
+::-webkit-scrollbar-thumb {
+  background: oklch(0.35 0.06 292);
+  border-radius: 8px;
+  border: 2px solid oklch(0.16 0.02 295);
+}
+::-webkit-scrollbar-thumb:hover {
+  background: oklch(0.5 0.12 293);
+}
+
+/* ============ DUNGEON GRID BACKGROUND ============ */
+.dungeon-grid {
+  background-image:
+    linear-gradient(oklch(0.62 0.21 293 / 0.06) 1px, transparent 1px),
+    linear-gradient(90deg, oklch(0.62 0.21 293 / 0.06) 1px, transparent 1px);
+  background-size: 44px 44px;
+}
+
+.dungeon-grid-fine {
+  background-image:
+    linear-gradient(oklch(0.85 0.14 195 / 0.04) 1px, transparent 1px),
+    linear-gradient(90deg, oklch(0.85 0.14 195 / 0.04) 1px, transparent 1px);
+  background-size: 22px 22px;
+}
+
+/* ============ GLOW EFFECTS ============ */
+.glow-purple {
+  box-shadow: 0 0 18px oklch(0.62 0.21 293 / 0.45), 0 0 42px oklch(0.62 0.21 293 / 0.18);
+}
+.glow-cyan {
+  box-shadow: 0 0 18px oklch(0.85 0.14 195 / 0.5), 0 0 42px oklch(0.85 0.14 195 / 0.2);
+}
+.glow-gold {
+  box-shadow: 0 0 18px oklch(0.82 0.16 85 / 0.5), 0 0 46px oklch(0.82 0.16 85 / 0.2);
+}
+.glow-red {
+  box-shadow: 0 0 18px oklch(0.65 0.22 25 / 0.55), 0 0 42px oklch(0.65 0.22 25 / 0.22);
+}
+.text-glow-cyan {
+  text-shadow: 0 0 12px oklch(0.85 0.14 195 / 0.65), 0 0 32px oklch(0.85 0.14 195 / 0.3);
+}
+.text-glow-gold {
+  text-shadow: 0 0 12px oklch(0.82 0.16 85 / 0.6), 0 0 32px oklch(0.82 0.16 85 / 0.28);
+}
+.text-glow-purple {
+  text-shadow: 0 0 12px oklch(0.62 0.21 293 / 0.65), 0 0 32px oklch(0.62 0.21 293 / 0.3);
+}
+
+/* ============ SCANLINE (cyberpunk terminal vibe) ============ */
+.scanlines::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent 0px,
+    transparent 2px,
+    oklch(0 0 0 / 0.12) 3px,
+    transparent 4px
+  );
+  mix-blend-mode: overlay;
+}
+
+/* ============ VIGNETTE ============ */
+.vignette::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(
+    ellipse at center,
+    transparent 55%,
+    oklch(0.08 0.02 295 / 0.55) 100%
+  );
+}
+
+/* ============ ANIMASI ============ */
+@keyframes float-slow {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-12px); }
+}
+.animate-float-slow {
+  animation: float-slow 5s ease-in-out infinite;
+}
+
+@keyframes pulse-glow {
+  0%, 100% { box-shadow: 0 0 14px oklch(0.62 0.21 293 / 0.35); }
+  50% { box-shadow: 0 0 30px oklch(0.62 0.21 293 / 0.7); }
+}
+.animate-pulse-glow {
+  animation: pulse-glow 2.4s ease-in-out infinite;
+}
+
+@keyframes shine-sweep {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(220%); }
+}
+
+/* XP bar dengan kilau berjalan */
+.xp-bar-shine {
+  position: relative;
+  overflow: hidden;
+}
+.xp-bar-shine::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 40%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    oklch(0.98 0 0 / 0.35),
+    transparent
+  );
+  animation: shine-sweep 2.2s ease-in-out infinite;
+}
+
+@keyframes blink-caret {
+  0%, 49% { opacity: 1; }
+  50%, 100% { opacity: 0; }
+}
+.terminal-caret {
+  animation: blink-caret 1s step-end infinite;
+}
+
+/* ============ MARKDOWN / LESSON CONTENT ============ */
+.lesson-content h2 {
+  font-size: 1.35rem;
+  font-weight: 700;
+  color: oklch(0.85 0.14 195);
+  margin-top: 2rem;
+  margin-bottom: 0.75rem;
+}
+.lesson-content h3 {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: oklch(0.88 0.06 290);
+  margin-top: 1.5rem;
+  margin-bottom: 0.5rem;
+}
+.lesson-content p {
+  margin-bottom: 1rem;
+  line-height: 1.75;
+  color: oklch(0.85 0.015 290);
+}
+.lesson-content ul {
+  margin-bottom: 1rem;
+  padding-left: 1.25rem;
+  list-style: none;
+}
+.lesson-content li {
+  position: relative;
+  padding-left: 1rem;
+  margin-bottom: 0.5rem;
+  line-height: 1.7;
+  color: oklch(0.82 0.015 290);
+}
+.lesson-content li::before {
+  content: "▸";
+  position: absolute;
+  left: -0.25rem;
+  color: oklch(0.82 0.16 85);
+}
+.lesson-content strong {
+  color: oklch(0.93 0.04 290);
+  font-weight: 700;
+}
+.lesson-content code {
+  font-family: var(--font-jetbrains), monospace;
+  font-size: 0.85em;
+  background: oklch(0.24 0.03 292);
+  border: 1px solid oklch(0.3 0.04 292);
+  padding: 0.1rem 0.4rem;
+  border-radius: 0.4rem;
+  color: oklch(0.85 0.14 195);
+}
+.lesson-content pre {
+  position: relative;
+  background: oklch(0.13 0.02 295);
+  border: 1px solid oklch(0.28 0.04 292);
+  border-radius: 0.75rem;
+  padding: 1rem 1.25rem;
+  margin: 1.25rem 0;
+  overflow-x: auto;
+}
+.lesson-content pre code {
+  background: transparent;
+  border: none;
+  padding: 0;
+  color: oklch(0.87 0.02 290);
+  font-size: 0.82rem;
+  line-height: 1.7;
+}
